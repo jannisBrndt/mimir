@@ -10,7 +10,7 @@ function M.setup(opts)
     M.config.deepseek_cmd = opts.deepseek_cmd
   end
 
-  -- Existing command for normal text input:
+  -- Existing "DeepseekSearch" command
   vim.api.nvim_create_user_command(
     "DeepseekSearch",
     function(cmd_opts)
@@ -19,13 +19,13 @@ function M.setup(opts)
     { nargs = 1, complete = "file" }
   )
 
-  -- New command for visually selected text:
+  -- NEW: "DeepseekSearchFloat" command to open a floating terminal
   vim.api.nvim_create_user_command(
-    "DeepseekSearchVisual",
-    function()
-      require("deepseek_plugin.commands").search_visual(M.config.deepseek_cmd)
+    "DeepseekSearchFloat",
+    function(cmd_opts)
+      require("deepseek_plugin.commands").search_in_floating_term(cmd_opts.args, M.config.deepseek_cmd)
     end,
-    { range = true, desc = "Run DeepSeek on visually selected text" }
+    { nargs = 1, complete = "file" }
   )
 end
 
